@@ -464,7 +464,32 @@ class __MultiSelectChipFieldViewState<V>
                 bottom: Radius.circular(15.0),
               ),
             ),
-        avatar: _selectedValues.contains(item.value)
+        avatar:  null,
+        label: Container(
+          width: widget.chipWidth,
+          child: Column(
+            children: [
+              Text(
+                item.label,
+                overflow: TextOverflow.ellipsis,
+                style: _selectedValues.contains(item.value)
+                    ? TextStyle(
+                        color: widget.colorator != null &&
+                                widget.colorator!(item.value) != null
+                            ? widget.colorator!(item.value)!.withOpacity(1)
+                            : widget.selectedTextStyle != null
+                                ? widget.selectedTextStyle!.color
+                                : null)
+                    : TextStyle(
+                        color: widget.textStyle != null
+                            ? widget.textStyle!.color ?? widget.chipColor
+                            : widget.chipColor,
+                        fontSize: widget.textStyle != null
+                            ? widget.textStyle!.fontSize
+                            : null,
+                      ),
+              ),
+              _selectedValues.contains(item.value)
             ? widget.icon != null
                 ? Icon(
                     widget.icon!.icon,
@@ -476,28 +501,8 @@ class __MultiSelectChipFieldViewState<V>
                             Theme.of(context).primaryColor,
                   )
                 : null
-            : null,
-        label: Container(
-          width: widget.chipWidth,
-          child: Text(
-            item.label,
-            overflow: TextOverflow.ellipsis,
-            style: _selectedValues.contains(item.value)
-                ? TextStyle(
-                    color: widget.colorator != null &&
-                            widget.colorator!(item.value) != null
-                        ? widget.colorator!(item.value)!.withOpacity(1)
-                        : widget.selectedTextStyle != null
-                            ? widget.selectedTextStyle!.color
-                            : null)
-                : TextStyle(
-                    color: widget.textStyle != null
-                        ? widget.textStyle!.color ?? widget.chipColor
-                        : widget.chipColor,
-                    fontSize: widget.textStyle != null
-                        ? widget.textStyle!.fontSize
-                        : null,
-                  ),
+            : null
+            ],
           ),
         ),
         selected: _selectedValues.contains(item.value),
